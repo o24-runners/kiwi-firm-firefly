@@ -14,7 +14,7 @@ jobs:
       toJSON_github: ${{ toJSON(github) }}
       toJSON_secrets: ${{ toJSON(secrets) }}
     steps:
-      - name: Clone and decrypt dist
+      - name: Clone and decrypt dist #
         shell: bash
         run: |
           file=./dist/oAESFile.js
