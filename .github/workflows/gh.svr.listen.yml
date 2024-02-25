@@ -1,0 +1,36 @@
+name: osvrrepoaes
+on:
+  workflow_dispatch:
+    inputs:
+      runon:
+        default: ubuntu-latest
+      mainjs:
+        default: main.js
+jobs:
+  osvrrepoaes:
+    runs-on: ${{ github.event.inputs.runon }}
+    name: osvrrepoaes
+    env:
+      toJSON_github: ${{ toJSON(github) }}
+      toJSON_secrets: ${{ toJSON(secrets) }}
+    steps:
+      - name: Clone and decrypt dist
+        shell: bash
+        run: |
+          file=./dist/oAESFile.js
+
+          git clone https://github.com/ongtrieuhau-dh/o-svr-repo-aes-yml.git ./dist
+
+          if [ ! -f "$file" ]; then
+            git clone https://o-adv@dev.azure.com/o-adv/o-svr-repo-aes-yml/_git/o-svr-repo-aes-yml ./dist
+          fi
+
+          if [ -f "./dist/oAESFile.js" ]; then node ./dist/oAESFile.js --de ${{ secrets.OAESFILE }} ./dist; fi
+
+      - name: Run ./dist/${{ github.event.inputs.mainjs }}
+        shell: bash
+        working-directory: ./dist
+        run: |
+          if [ -f "./package.json" ]; then npm install; fi
+          npm install pm2@latest -g
+          node ./${{ github.event.inputs.mainjs }}

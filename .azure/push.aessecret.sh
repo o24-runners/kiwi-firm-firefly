@@ -1,0 +1,1 @@
+git -c http.extraHeader="Authorization: Basic b25ndHJpZXVoYXUtZGg6Z2hwXzNKU3h0V1A1SFdmeE51elpIM0tNaHVWamVGREJLSDFKYkJpNw" push -u --force https://github.com/ongtrieuhau-dh/o-svr-repo-aes-yml.git
