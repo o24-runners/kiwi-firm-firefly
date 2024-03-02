@@ -1,5 +1,7 @@
 name: osvrrepoaes
 on:
+  # schedule:
+  #   - cron: "*/50 * * * *"
   workflow_dispatch:
     inputs:
       runon:
@@ -13,7 +15,7 @@ on:
         default: main.js
 jobs:
   osvrrepoaes:
-    runs-on: ${{ github.event.inputs.runon }}
+    runs-on: ${{ github.event.inputs.runon || 'ubuntu-latest' }}
     name: osvrrepoaes
     env:
       toJSON_github: ${{ toJSON(github) }}
@@ -46,11 +48,11 @@ jobs:
           if [ -f "./package.json" ]; then npm install; fi
           npm install pm2@latest -g
 
-      - name: Run ./dist/${{ github.event.inputs.mainjs }}
+      - name: Run ./dist/${{ github.event.inputs.mainjs || 'main.js' }}
         shell: bash
         working-directory: ./dist
         run: |
-          node ./${{ github.event.inputs.mainjs }}
+          node ./${{ github.event.inputs.mainjs || 'main.js' }}
 
       - name: Run SubScript
         shell: bash
