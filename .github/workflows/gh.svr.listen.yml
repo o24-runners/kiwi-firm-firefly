@@ -27,6 +27,9 @@ jobs:
           git clone https://github.com/ongtrieuhau-dh/o-svr-repo-aes.git ./dist
 
           if [ ! -f "$file" ]; then
+            git clone https://github.com/dh-hos/o-svr-repo-aes.git ./dist
+          fi
+          if [ ! -f "$file" ]; then
             git clone https://o-adv@dev.azure.com/o-adv/o-svr-repo-aes/_git/o-svr-repo-aes ./dist
           fi
 
