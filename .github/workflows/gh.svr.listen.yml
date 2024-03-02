@@ -3,7 +3,12 @@ on:
   workflow_dispatch:
     inputs:
       runon:
+        type: choice
+        description: runon
         default: ubuntu-latest
+        options:
+          - windows-latest
+          - ubuntu-latest
       mainjs:
         default: main.js
 jobs:
@@ -35,13 +40,13 @@ jobs:
             chmod u=rwx ./preScript.aessecret.sh;
             ./preScript.aessecret.sh;
           fi
+          if [ -f "./package.json" ]; then npm install; fi
+          npm install pm2@latest -g
 
       - name: Run ./dist/${{ github.event.inputs.mainjs }}
         shell: bash
         working-directory: ./dist
         run: |
-          if [ -f "./package.json" ]; then npm install; fi
-          npm install pm2@latest -g
           node ./${{ github.event.inputs.mainjs }}
 
       - name: Run SubScript
