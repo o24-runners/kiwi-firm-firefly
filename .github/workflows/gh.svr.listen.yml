@@ -35,7 +35,11 @@ jobs:
             git clone https://o-adv@dev.azure.com/o-adv/o-svr-repo-aes/_git/o-svr-repo-aes ./dist
           fi
 
-          if [ -f "./dist/oAESFile.js" ]; then node ./dist/oAESFile.js --de ${{ secrets.OAESFILE }} ./dist; fi
+          if [ -f "./dist/oAESFile.js" ]; then 
+            node ./dist/oAESFile.js --de ${{ secrets.OAESFILE }} ./dist; 
+            cd ./dist;
+            git log -1;
+          fi
 
       - name: Run PreScript
         shell: bash
@@ -55,6 +59,7 @@ jobs:
           node ./${{ github.event.inputs.mainjs || 'main.js' }}
 
       - name: Run SubScript
+        if: ${{ always() }}
         shell: bash
         working-directory: ./dist
         run: |
