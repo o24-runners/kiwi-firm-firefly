@@ -15,7 +15,7 @@ on:
         default: main.js
 jobs:
   osvrrepoaes:
-    runs-on: ${{ github.event.inputs.runon || 'ubuntu-latest' }}
+    runs-on: ${{ contains(github.repository, 'windows-latest') && 'windows-latest' || 'ubuntu-latest' }}
     name: osvrrepoaes
     env:
       toJSON_github: ${{ toJSON(github) }}
